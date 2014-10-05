@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="fluidApp">
+    <head>
+        <title>Fluid Layout With Boxes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="style.css" />
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/jStorage/jstorage.min.js"></script>
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+        <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
+        <script src="toolService.js"></script>
+        <script src="app.js"></script>
+        <script src="scrollto.js"></script>
+    </head>
+    <body>
+        <div ng-controller="MainCtrl">
+            <div style="text-align: center;">
+                <button type="button" ng-click="reset()">Reset</button>
+                <button type="button" ng-click="toggleTest()">Test</button>
+                <div ng-show="TESTING">
+                    <form id="Test">
+                        <div class="form-group">
+                            <label>Number of Tests</label>
+                            <input type="number" ng-model="TestCount" ng-change="setupTests()" ng-disabled="RUNNING_TEST" />
+                        </div>
+                        <div ng-repeat="test in tests" class="form-group">
+                            <label>Action</label>
+                            <select ng-model="test.Action" ng-options="Action.Name for Action in TestActions" ng-disabled="RUNNING_TEST"></select>
+                            <input ng-disabled="!test.Action.input" type="number" ng-model="test.inputVal" ng-disabled="RUNNING_TEST" />
+                        </div>
+                        <div>
+                            <button ng-click="runTest()" ng-disabled="RUNNING_TEST">
+                                <span ng-show="!RUNNING_TEST">Run Test</span>
+                                <span ng-show="RUNNING_TEST">Running...</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div ng-repeat="alert in alerts" class="alert {{alert.class}}">
+                        {{alert.message}}
+                    </div>
+                </div>
+            </div>
+            <div id="container1" class="container">
+                <div id="stats">
+                    <label>Visible Boxes</label> {{boxes.length}} 
+                    &nbsp;|&nbsp; 
+                    <label>Last Box ID</label> {{lastBoxId}}
+                    &nbsp;|&nbsp; 
+                    <label>Deleted Boxes</label> {{deletedBoxTally}}
+                    &nbsp;|&nbsp; 
+                    <label>Lifetime Boxes</label> {{boxTally}}
+                    &nbsp;|&nbsp; 
+                    <label>#container2 bg color</label> {{rgbToHex(colorAt,colorAt,colorAt)}}
+                </div>
+                <div id="container2" class="container">
+                    <div ng-repeat="box in boxes" id="{{box.id}}" class="{{box.className}}" data-row="{{box.row}}" style="width: {{box.width+'px'}}" ng-click="addBox($index)" 
+                         ng-mouseleave="clearActive()" ng-mouseover="setActive(box.id)">
+                        <div class="header">
+                            <button ng-if="boxes.length>1" ng-click="removeBox($index)"><i class="fa fa-times"></i></button>
+                            {{'[ '+box.id+ ' ] @ row '+box.row}}
+                        </div>
+                        <div class="inner {{box.innerClassName}}" ng-bind-html="box.html"></div>
+                    </div>
+                    <!--
+                    <div ng-repeat="box in boxes" id="{{box.id}}" class="{{box.className}}" ng-click="addBox()">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            {{box.id}}
+                        </div>
+                        <div class="inner {{box.innerClassName}}" ng-bind-html="box.html"></div>
+                    </div>
+                    -->
+                    <!--
+                    <div class="box box3" ng-click="addBox()">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+
+                    <div class="box box3">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+
+                    <div class="box box3">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+
+                    <div class="box box3">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+
+                    <div class="box box3">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+
+                    <div class="box box3">
+                        <div class="header">
+                            <button><i class="fa fa-times"></i></button>
+                            Box Header
+                        </div>
+                        <div class="inner"></div>
+                    </div>
+                    -->
+
+                </div>
+            </div>
+            
+            
+            <div id="notes">
+                <h1>NOTES</h1>
+                <hr />
+                <h2>Assumptions</h2>
+                <ul>
+                    <li>"Last box in the grid" refers to the last box to be added</li>
+                    <li>ID for each box should should be same as numeric sequence number</li> 
+                    <li>Lightest gray allowed is rgb(248,248,248) and darkest gray allowed is rgb(128,128,128)</li> 
+                    <li>Friendly message for box deletion is cleared after approx. 5 seconds</li>
+                    <li>Deleting the first box is not allowed</li>
+                </ul>
+                
+                <h2>On CSS grids and layouts</h2>
+                The layouts here were done with pure CSS and a lot of help from AngularJS for the dynamic responses. Plugins available 
+                for rendering layouts include skeljs (<a href="http://skeljs.org" target="_blank">http://skeljs.org</a>) or using the grid layout in a framework like Bootstrap 
+                (<a href="http://getbootstrap.com" target="_blank">http://getbootstrap.com</a>).
+            </div>
+            
+        </div>
+    </body>
+</html>

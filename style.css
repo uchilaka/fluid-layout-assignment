@@ -1,0 +1,114 @@
+body {
+    font-family: sans-serif;
+}
+#notes {
+    margin: 0 auto;
+}
+.alert {
+    padding: 1em;
+    border-radius: 8px;
+    background-color: #C5E3BF;
+    display: inline-block;
+    margin: 0 auto;
+}
+.alert.error {
+    background-color: #f08080;
+}
+/** Omnilayout styling for containers **/
+#container1 {
+    /* background-image: url(picnic.jpg); */
+    background-image: url(backgroundTile.png);
+    border: 10px solid transparent;
+    background-origin: padding-box;
+    margin: 20px auto;
+}
+#container2 {
+    /*background-color: #999;*/
+    margin: 0 auto;
+    padding: 10px;
+    border: 15px solid transparent;
+}
+/** Hover state for containers **/
+.container.active, .box:hover {
+    border-color: #000 !important;
+}
+.box {
+    display: inline-block;
+    border: 5px solid transparent;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+}
+.box:hover {
+    cursor: pointer;
+}
+/** If the desired "last box" to highlight is the very last element, the notation would be .box:last-child **/
+.box.last {
+    border-color: yellow;
+}
+.box>.header {
+    border-bottom: 1px solid #e8e8e8;
+    background-color: #f7f7f7;
+    padding: 5px;
+}
+.box>.inner {
+    min-height: 150px;
+    padding: 10px;
+    text-align: justify;
+}
+.box>.inner:not(.box-mod-2):not(.box-mod-3):not(.box-mod-4) {
+    background-color: #fff;
+    min-height: 150px;
+}
+.box>.header button {
+    float: right;
+}
+.box-mod-2 {
+    background-color: #f08080;
+}
+.box-mod-3 {
+    background-color: #C5E3BF;
+}
+.box-mod-4 {
+    background-color: #ADD8E6;
+}
+#stats {
+    display: inline-block;
+    color: #fff;
+    margin-left: 15px;
+    padding: 10px;
+}
+#stats>label:after {
+    content: ':'
+}
+#stats>label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+/** responsive css **/
+@media(min-width: 1000px) {
+    #container1, #notes {
+        width: 960px;
+        padding: 25px 15px;
+    }
+    #container2 {
+        width: 860px;
+    }
+}
+@media(min-width: 600px) and (max-width: 999px) {
+    #container1, #notes {
+        width: 580px;
+        padding: 15px;
+    }
+    #container2 {
+        width: 540px;
+    }
+}
+@media(max-width: 599px) {
+    #container1, #notes {
+        width: 550px;
+        padding: 12px;
+    }
+    #container2 {
+        width: 510px;
+    }
+}
