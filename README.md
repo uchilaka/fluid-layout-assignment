@@ -3,6 +3,13 @@ fluid-layout-assignment
 
 Example of fluid layout with angularjs and JQuery for Javascript awesomeness and jStorage for state persist
 
+<h2>Installation</h2>
+Install via <a href="http://bower.io/">Bower</a>:
+<pre>
+bower install uchilaka-ng-layout-task
+</pre>
+or download the zip file from this git repository.
+
 <h2>Assumptions</h2>
 <ul>
   <li>"Last box in the grid" refers to the last box to be added</li>
