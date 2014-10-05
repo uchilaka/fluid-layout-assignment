@@ -4,11 +4,24 @@ fluid-layout-assignment
 Example of fluid layout with angularjs and JQuery for Javascript awesomeness and jStorage for state persist
 
 <h2>Installation</h2>
-Install via <a href="http://bower.io/">Bower</a>:
+There are 2 installation options:
+<ul>
+	<li>Via Bower</li>
+	<li>From Github</li>
+</ul>
+
+<h3>Bower</h3>
+Install via <a href="http://bower.io/" target="_blank">Bower</a>:
 <pre>
 bower install uchilaka-ng-layout-task
 </pre>
-or download the zip file from this git repository.
+Then, copy the contents of the uchilaka-ng-layout-task directory to the root of your new application and run as a HTML5 App.
+
+<h3>Github</h3>
+Download the ZIP folder or clone this Git repository
+
+<h2>Notes</h2>
+Development and testing done with the <a href="https://netbeans.org/downloads/" target="_blank">Netbeans IDE</a>
 
 <h2>Assumptions</h2>
 <ul>
